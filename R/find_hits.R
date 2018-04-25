@@ -12,7 +12,7 @@
 #' @importFrom imager load.image
 #' @export
 
-find_hits <- function(fold, file, path){
+find_hits <- function(fold, file, path, n=10){
 
   files <- list.files(fold)
   files.r <- list.files(fold, recursive = T)
@@ -31,7 +31,7 @@ find_hits <- function(fold, file, path){
   im <- load.image(paste(fold, files.first[1], sep ="/"))
 
   # retrieve coordinates
-  coord.within <- define_polygon(im, 10)
+  coord.within <- define_polygon(im, n = n)
 
   # load csv
   tab <- read.csv(paste(fold, files.csv, sep ="/"))

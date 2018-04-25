@@ -8,6 +8,7 @@
 #' @param coord output of \link{define_polygon}
 #' @param x an object of class 'cimg'
 #' @return list of points outside and inside of polygon
+#' @importFrom fields in.poly
 #' @export
 
 target_coords <- function(coord, x){

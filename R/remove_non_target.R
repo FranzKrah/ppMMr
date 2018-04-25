@@ -11,17 +11,18 @@
 #' @export
 
 
-remove_non_target <- function(path){
+remove_non_target <- function(path, n){
 
   dirs <- list.dirs(path)
-  dirs <- dirs[grep("\\d*[A-Z]{2}", dirs)]
+  dirs <- dirs[grep("\\d{6}[A-Z]{2}", dirs)]
+  
 
   for(i in 1:length(dirs)){
     if(length(grep("updated", list.files(dirs[i])))>0){
       cat(i, "Frames already updated \n")
       next
     }else{
-      find_hits(fold = dirs[i], path = path)
+      find_hits(fold = dirs[i], path = path, n = n)
       cat(i, "Frames now updated \n")
     }
   }

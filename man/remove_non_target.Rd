@@ -4,7 +4,7 @@
 \alias{remove_non_target}
 \title{Frist step after MotionMeerkat: Delete non-target hits}
 \usage{
-remove_non_target(path)
+remove_non_target(path, n)
 }
 \arguments{
 \item{path}{a character string specifying the path of the motion detection project with folders being MotionMeerkat folders}

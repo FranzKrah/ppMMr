@@ -22,7 +22,7 @@ remove_non_animal  <- function(path, batch = 1000,
   mo_tab <- read_motion_table(path)
 
   # reduce to hits on user-defined target
-  inside.new <- inside <- which(mo_tab$inside==1)
+  inside.new <- inside <- which(mo_tab$target==1)
 
   ## continue where stopped if some batches run already
   if(length(grep("animal", names(mo_tab)))>0){

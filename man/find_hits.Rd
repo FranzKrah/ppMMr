@@ -4,7 +4,7 @@
 \alias{find_hits}
 \title{Subroutine of \link{remove_non_target}}
 \usage{
-find_hits(fold, file, path)
+find_hits(fold, file, path, n = 10)
 }
 \arguments{
 \item{fold}{character string of folder beeing processed}
