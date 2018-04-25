@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "################################################\n## This code is part of the Rpackage ppMMr    ##\n## Franz-S. Krah; Leonie Schmid               ##\n## 24 - 05 - 2018                             ##\n################################################\n\n#' Interface to the efixtool software to open meta data of image files\n#' @param image.path a character string specifying a path to an image file\n#' @param exec a character string with the path efixtool (Windows, e.g. C:/Programme/exiftool/exiftool_-k_.exe)\n#' @return data.frame with efixtool output\n#' @references \\url{https://www.sno.phy.queensu.ca/~phil/exiftool/}\n#' @export\n\nR.exiftool <- function(image.path, exec =\"exiftool\"){\n  call <- paste(exec, image.path)\n  out <- system(call, intern = TRUE)\n  res <- data.frame(do.call(rbind, strsplit(out, \"\\\\s\\\\:\\\\s\")))\n  res$X1 <- trimws(res$X1)\n  res$X2 <- trimws(res$X2)\n  names(res) <- c(\"var\", \"val\")\n  return(res)\n}\n\n",
+    "created" : 1524571403428.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3852509754",
+    "id" : "EC60AE60",
+    "lastKnownWriteTime" : 1524580003,
+    "last_content_update" : 1524580003340,
+    "path" : "~/Documents/R/pkgs/ppMMr/R/R.efixtool.R",
+    "project_path" : "R/R.efixtool.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

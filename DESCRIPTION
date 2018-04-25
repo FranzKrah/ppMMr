@@ -1,0 +1,11 @@
+Package: ppMMr
+Type: Package
+Title: Post-Processing of MotionMeerkat output in R
+Version: 0.1.0
+Author: Franz-Sebastian Krah, Leonie Schmid
+Maintainer: Franz-Sebastian Krah <franz.krah@tum.de>
+Description: After MotionMeerkat was applied on a set of camera tracking output files, the resulting amount of frames with putative motion is huge. Here we implemented a pipeline for post-MotionMeerkat processing of these frames. In a first step the user can define a target area and subsequently non-target hits are remooved. In a second step the user can click through the remaining image and classify the images based on a own classification scheme. For example one might want to seperate animal from non-animal (false positives) hits. The pipeline is convinent in that it only takes the folder directory as input, where the MotionMeerkat output folders are stored.
+License: GPL (>= 2)
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1

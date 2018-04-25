@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "################################################\n## This code is part of the Rpackage ppMMr    ##\n## Franz-S. Krah; Leonie Schmid               ##\n## 24 - 05 - 2018                             ##\n################################################\n\n#' Read motion detection table\n#' @param path a character string specifying the path of the motion detection project with folders being MotionMeerkat folders\n#' @return data.frame\n#' @importFrom stringr str_extract\n#' @export\n\nread_motion_table <- function(path) {\n  mo_tab <- list.files(path)\n  mo_tab <- paste(path, mo_tab[grep(\"motion_table\", mo_tab)], sep =\"/\")\n  x <-  as.Date(str_extract(mo_tab, \"\\\\d*-\\\\d*-\\\\d*\"))\n  coldate <- Sys.Date()\n  mo_tab_path <- mo_tab[which(abs(coldate-x) == min(abs(coldate - x)))]\n  mo_tab <- read.table(mo_tab_path, header = TRUE, sep =\";\")\n  return(mo_tab)\n}\n\n",
+    "created" : 1524571479589.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1068479477",
+    "id" : "1EAC8CA4",
+    "lastKnownWriteTime" : 1524589781,
+    "last_content_update" : 1524589781036,
+    "path" : "~/Documents/R/pkgs/ppMMr/R/read.motion.table.R",
+    "project_path" : "R/read.motion.table.R",
+    "properties" : {
+        "tempName" : "Untitled9"
+    },
+    "relative_order" : 9,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

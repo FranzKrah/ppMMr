@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "################################################\n## This code is part of the Rpackage ppMMr    ##\n## Franz-S. Krah; Leonie Schmid               ##\n## 24 - 05 - 2018                             ##\n################################################\n\n#' Subroutine of \\link{remove_non_target}\n#' @description Takes first image of a series of images with putative animal movement. Then the area of interest is selected by the user. This function. Then adds a hit information to the MotionMerkat CSV file. Hit = detected animal moovement was within the selected area of interest.\n#' @param fold character string of folder beeing processed\n#' @param file character string of file (frame) beeing processed\n#' @param path a character string specifying the path of the motion detection project with folders being MotionMeerkat folders\n#' @importFrom imager load.image\n#' @export\n\nfind_hits <- function(fold, file, path){\n\n  files <- list.files(fold)\n  files.r <- list.files(fold, recursive = T)\n\n  # list of first images from subfolder and their CSVs\n  files.first <- unlist(lapply(files, function(x)  files.r[grep(x, files.r)[1]]))\n  files.first <- files.first[grep(\"jpg\", files.first)]\n  files.csv <- files.r[grep(\"csv\\\\b\", files.r)]\n  if(length(grep(\"updated\", files.r))>0){\n    stop(\"Frames.csv is already updated\")\n  }\n\n  # load image and retrive coordinates\n  # load image\n\n  im <- load.image(paste(fold, files.first[1], sep =\"/\"))\n\n  # retrieve coordinates\n  coord.within <- define_polygon(im, 10)\n\n  # load csv\n  tab <- read.csv(paste(fold, files.csv, sep =\"/\"))\n  tab <- data.frame(tab, do.call(rbind, str_extract_all(tab$Position, \"\\\\d+\")))\n  colnames(tab)[4:7] <- c(\"x1\", \"y1\", \"x2\", \"y2\")\n\n  # Retrieve all points with polygon\n  all.dots <- target_coords(coord = coord.within , x = im)\n\n  # Hits in polyimage\n  target <- (((tab$x1 %in% all.dots$polygon$x) & (tab$y1 %in% all.dots$polygon$y))\n    |   ((tab$x2 %in% all.dots$polygon$x) & (tab$y2 %in% all.dots$polygon$y)))\n\n  tab <- data.frame(tab, target = target*1)\n  tab <- data.frame(path = path, path.sub = gsub(path, \"\", fold), tab)\n\n  ## prepare file directories\n  files.csv <- do.call(rbind, strsplit(files.csv, \"\\\\.\"))\n  dat <- Sys.Date()\n  files.csv <- cbind(files.csv[1], \"updated\", as.character(dat), files.csv[2])\n  files.csv <- paste(files.csv[,1], \"_\", files.csv[,2], \"_\", files.csv[,3], \".\", files.csv[,4], sep =\"\")\n\n  write.table(tab, file = paste(fold, files.csv, sep =\"/\"),\n    sep = \";\",  row.names = FALSE)\n\n}\n",
+    "created" : 1524571454281.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3945817165",
+    "id" : "B970D162",
+    "lastKnownWriteTime" : 1524580021,
+    "last_content_update" : 1524580021977,
+    "path" : "~/Documents/R/pkgs/ppMMr/R/find_hits.R",
+    "project_path" : "R/find_hits.R",
+    "properties" : {
+        "tempName" : "Untitled6"
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

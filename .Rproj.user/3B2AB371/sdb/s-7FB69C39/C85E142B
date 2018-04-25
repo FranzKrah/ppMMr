@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "################################################\n## This code is part of the Rpackage ppMMr    ##\n## Franz-S. Krah; Leonie Schmid               ##\n## 24 - 05 - 2018                             ##\n################################################\n\n#' Add time to motion detection table\n#' @param path a character string specifying the path of the motion detection project with folders being MotionMeerkat folders\n#' @param exec a character string with the path efixtool (Windows, e.g. C:/Programme/exiftool/exiftool_-k_.exe)\n#' @importFrom stringr word str_extract\n#' @export\n\nadd_time <- function(path, exec = \"exiftool\"){\n\n  tlvs <- list.files(path, recursive = TRUE, full.names = TRUE)\n  tlvs <- tlvs[grep(\"\\\\.TLV\", tlvs)]\n  # \"C:/Programme/exiftool/exiftool_-k_.exe\"\n\n  tlvs.meta <- lapply(tlvs, R.exiftool, exec = exec)\n  names(tlvs.meta) <- tlvs\n\n  time <- lapply(tlvs.meta, function(x) x[c(5), ])\n  time <- unlist(lapply(time, function(x)\n    paste(strsplit(word(x$val, 2,2), \":\")[[1]][1:2], collapse=\":\")))\n  frame.count <- unlist(lapply(tlvs.meta, function(x) x[c(14), ]$val))\n  time <- data.frame(time, frame.count)\n  time$time <- gsub(\"00:00\", \"24:00\", time$time)\n\n  ## compute frame seconds\n  time$frame.sec <- as.numeric(as.character(time$frame.count))*5\n  time <- data.frame(data.frame(do.call(rbind, strsplit(time$time, \":\"))), time)\n  names(time)[1:2] <- c(\"hour\", \"min\")\n\n  # compute starting day time in seconds\n  sec.hours <- (as.numeric(as.character(time$hour))*3600)\n  sec.mins <- (as.numeric(as.character(time$min))*60)\n  time$sec.time <- sec.hours + sec.mins\n\n  time$time.start.sec <- time$sec.time - time$frame.sec\n  time$time.start.sec[time$time.start.sec<0] <- 0\n\n  # read motion table\n  mo_tab <- read_motion_table(path)\n\n  time$path.sub <- str_extract(rownames(time),\n    unique(as.character(mo_tab$path.sub)))\n\n  mo_tab <- data.frame(mo_tab,\n    time[match(as.character(mo_tab$path.sub), time$path.sub),],\n    row.names = NULL)\n\n  frame.sec <- 5\n  day.time <- (mo_tab$time.start.sec + (mo_tab$Frame*frame.sec))\n  day.time <- day.time/3600\n  day.time <- do.call(rbind, strsplit(as.character(day.time), \"\\\\.\"))\n  day.time[,2] <- round(as.numeric(paste0(\"0.\", day.time[,2]))*60)\n  day.time <- as.data.frame(day.time)\n  names(day.time) <- c(\"day.time.hour\", \"day.time.min\")\n  mo_tab <- data.frame(mo_tab, day.time)\n  mo_tab <- mo_tab[, grep(\"path|path.sub|Frame|x1|y1|x2|y2|inside|animal|day\\\\.time\\\\.hour|day\\\\.time\\\\.min\", names(mo_tab))]\n  write.table(mo_tab, file = mo_tab_path, row.names = FALSE, sep =\";\")\n}\n\n",
+    "created" : 1524571472599.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4272025307",
+    "id" : "C85E142B",
+    "lastKnownWriteTime" : 1524591252,
+    "last_content_update" : 1524591252332,
+    "path" : "~/Documents/R/pkgs/ppMMr/R/add_time.R",
+    "project_path" : "R/add_time.R",
+    "properties" : {
+        "tempName" : "Untitled8"
+    },
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

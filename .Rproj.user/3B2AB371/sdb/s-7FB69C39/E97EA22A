@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "################################################\n## This code is part of the Rpackage ppMMr    ##\n## Franz-S. Krah; Leonie Schmid               ##\n## 24 - 05 - 2018                             ##\n################################################\n\n#' Retrieve coordintas for user-defined target polygon in frame\n#' @param x an object of class 'cimg'\n#' @param n integer number of polygon points\n#' @import magick\n#' @importFrom graphics locator\n#' @import imager\n#' @export\n\ndefine_polygon <- function(x, n){\n\n  ## click the points you want\n  cat(\" - Please click \", n, \" times in the image (do not click more!) \\n\")\n\n  ## plot image to console\n  par(mar = c(0,0,0,0))\n  plot(x)\n\n  ## click\n  coord <- locator(n = n, type =\"l\")\n\n  ## prepare output\n  coord <- do.call(rbind, coord)\n  coord <- as.data.frame(t(coord))\n\n  return(coord)\n}\n\n",
+    "created" : 1524572398951.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "440815523",
+    "id" : "E97EA22A",
+    "lastKnownWriteTime" : 1524580031,
+    "last_content_update" : 1524580031040,
+    "path" : "~/Documents/R/pkgs/ppMMr/R/define_polygon.R",
+    "project_path" : "R/define_polygon.R",
+    "properties" : {
+    },
+    "relative_order" : 9,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
