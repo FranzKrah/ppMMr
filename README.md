@@ -22,3 +22,7 @@ These steps are done before using the ppMMr package, thus before the post motion
 > mot_tab <- read_motion_table(path) # read motion table, which can now be used for analysis
 > head(mo_tab)
 ```
+## How to use ppMMr
+[Click here to see the full vignette. ](https://github.com/FranzKrah/ppMMr/blob/master/vignette/ppMMr_vignette.pdf)
+
+
